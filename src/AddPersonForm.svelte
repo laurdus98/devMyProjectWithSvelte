@@ -8,11 +8,10 @@
 
   $: fullName = `${name} ${beltColour} ${age} ${skills} ${id}`;
 
-const handleSubmit = () => {
-console.log(fullName);
-confirm(`Confermare ${fullName}?`);
+const handleSubmit = (event) => {
+event.preventDefault();
 const person = {name, beltColour, age, skills, id};
-dispatch('addPerson', person);
+confirm(`Confermare ${fullName}?`) ? dispatch('addPerson', person) : console.log(fullName);
 }
 
 </script>
@@ -25,7 +24,7 @@ dispatch('addPerson', person);
   <!--<input type="checkbox" bind:checked={fighting}/> fighting <br>
   <input type="checkbox" bind:checked={swimming}/> swimming <br>
   <input type="checkbox" bind:checked={developing}/> developing <br> -->
-  <input type="checkbox" bind:group={skills} value="rideding"/> rideding <br>
+  <input type="checkbox" bind:group={skills} value="riding"/> riding <br>
   <input type="checkbox" bind:group={skills} value="running"/> running <br>
   <input type="checkbox" bind:group={skills} value="reading"/> reading <br>
   <select bind:value={beltColour}>

@@ -48,9 +48,9 @@ const addPerson = ({detail}) => {
 <main>
 <h1>People APIs</h1>
 <!--<button on:click|once={toggleModal}>Open Modal</button>-->
-<button on:click={toggleModal}>Open Modal</button>
+<button on:click={toggleModal}>Open Modal</button> <br >
 	{#each people as person (person.id)}
-		<div>
+		<div style="border: 2px solid crimson; padding: .3rem; margin: 1.25rem; width: 25%; height: 30%; display: inline-block;">
 			<h4>{person.name}</h4>
 			{#if person.beltColour === 'black'}
 				<p><strong>Master {person.name}</strong></p>
