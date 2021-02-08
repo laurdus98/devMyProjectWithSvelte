@@ -4,7 +4,7 @@ const app = new App({
 	target: document.body,
 	props: {
 		name: 'Laurdus',
-		branchName: "main",
+		branchName: "master",
 		companyName: "TasGroup"
 	}
 });
