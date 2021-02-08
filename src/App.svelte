@@ -5,7 +5,8 @@
 <main>
 	<h1>Hello {name}!</h1>
 	<p>Visit the <a href="https://svelte.dev/tutorial">Svelte tutorial</a> to learn how to build Svelte apps.</p>
-	<p>Sono nel ramo {branch}</p>
+	<p>I'm working at branch {branchName}</p>
+	<p>I'm working at home from {companyName}</p>
 </main>
 
 <style>
