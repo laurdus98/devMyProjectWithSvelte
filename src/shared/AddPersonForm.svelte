@@ -8,10 +8,14 @@
   let {name, beltColour, age, skills} = fields;
   $: fullName = `${name} ${beltColour} ${age} ${skills} ${id}`;
 
-const handleSubmit = (event) => {
+const handleSubmit = (event, person) => {
 event.preventDefault();
 // const person = {name, beltColour, age, skills, id};
-confirm(`Confermare ${fullName}?`) ? dispatch('addPerson') : console.log(fullName);
+const ok = confirm(`Confermare ${fullName}?`);
+ok ? PeopleStore.update(currentPeople => {
+    return [person, ...currentPeople];
+}) : console.log(fullName);
+ok && dispatch('addPerson')
 }
 
 const submitHandler = (event) => {
@@ -53,11 +57,11 @@ event.preventDefault();
   // add
   if(valid) {
   let person = {...fields, id, name, beltColour, age, skills}
-    PeopleStore.update(currentPeople => {
+    /** PeopleStore.update(currentPeople => {
         return [person, ...currentPeople];
-    })
+    }) */
     // dispatch('addPerson')
-    handleSubmit(event)
+    handleSubmit(event, person)
   }
 
 }
