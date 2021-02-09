@@ -1,33 +1,48 @@
 <script>
-
-import Modal from './Modal.svelte';
-import AddPersonForm from './AddPersonForm.svelte';
-let showModal = false;
-
+import {onMount, onDestroy} from "svelte";
+import PeopleStore from './stores/PeopleStore.js';
+import Modal from './shared/Modal.svelte';
+import AddPersonForm from './shared/AddPersonForm.svelte';
+let showModal = false, people = [];
 const toggleModal = () => {
 showModal = !showModal;
 }
-let people = [
-{name: "yoshi", beltColour: "black", age: 25, id: 0},
-{name: "mario", beltColour: "red", age: 15, id: 1},
-{name: "luigi", beltColour: "green", age: 20, id: 2},
-{name: "toad", beltColour: "yellow", age: 23, id: 3},
-{name: "browser", beltColour: "brown", age: 21, id: 4},
-{name: "daisy", beltColour: "orange", age: 19, id: 5},
-];
+/*PeopleStore.subscribe(data => {
+
+	people = data;
+
+}) **/
+const unsub = PeopleStore.subscribe(data => {
+
+	people = data;
+
+})
+onMount(() => {
+	// maybe get data from db
+	console.log("unmounted");
+});
+onDestroy(() => {
+	// unsub from store
+	console.log("destroyed");
+	unsub();
+});
 const handleClick = ({id}) => event => {
 event.preventDefault();
 // delete the person from people
 	// console.log(id);
 	const idxId = people.findIndex((person) => person.id == id);
-	people = confirm(`Delete ${people[idxId]["name"]}?`) ? people.filter((person) => person.id !== id) : people;
+	// people = confirm(`Delete ${people[idxId]["name"]}?`) ? people.filter((person) => person.id !== id) : people;
+	confirm(`Delete ${people[idxId]["name"]}?`) ? PeopleStore.update(currentPeople => {
+		return currentPeople.filter((person) => person.id !== id)
+	}) : ''
 }
-let {length} = people;
+let {length} = $PeopleStore
 
-const addPerson = ({detail}) => {
-	//console.log(detail);
-	people = [detail, ...people];
-	showModal = false;
+const addPerson = (/*{detail} **/) => {
+	// console.log(detail);
+	// people = [detail, ...people];
+	showModal = false
+	length = $PeopleStore.length;
 }
 
 </script>
@@ -49,6 +64,7 @@ const addPerson = ({detail}) => {
 <h1>People APIs</h1>
 <!--<button on:click|once={toggleModal}>Open Modal</button>-->
 <button on:click={toggleModal}>Open Modal</button> <br >
+	<!--{#each $PeopleStore as person (person.id)}-->
 	{#each people as person (person.id)}
 		<div style="border: 2px solid crimson; padding: .3rem; margin: 1.25rem; width: 25%; height: 30%; display: inline-block;">
 			<h4>{person.name}</h4>
